@@ -42,6 +42,18 @@ function concertThis(artist) {
                 console.log('Location: ' + response.data[0].venue.city + ", " + response.data[0].venue.region);
                 console.log("Date: " + moment(response.data[0].datetime).format("MM/DD/YY"));
                 console.log('\x1b[33m%s\x1b[0m', "----------------------------");
+
+                let logHead = "\n\nNEW SEARCH ( Band: " + artist + " )\n**************************************************\n"
+                let log = ['Venue: ' + response.data[0].venue.name,
+                'Location: ' + response.data[0].venue.city + ", " + response.data[0].venue.region,
+                "Date: " + moment(response.data[0].datetime).format("MM/DD/YY")].join("\n\n");
+
+                fs.appendFile("log.txt", logHead + log, function (err) {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    console.log('\x1b[33m%s\x1b[0m', "You can also check logs at \"log.txt\"");
+                });
             }
         );
 }
@@ -74,6 +86,19 @@ function spotifyThisSong(song) {
         console.log("Preview Link: " + Preview);
         console.log("Album: " + data.tracks.items[0].album.name)
         console.log('\x1b[33m%s\x1b[0m', "----------------------------");
+
+        let logHead = "\n\nNEW SEARCH ( Song: " + song + " )\n**************************************************\n"
+        let log = ["Artist(s): " + artists,
+        "Song's name: " + data.tracks.items[0].name,
+        "Preview Link: " + Preview,
+        "Album: " + data.tracks.items[0].album.name].join("\n\n");
+
+        fs.appendFile("log.txt", logHead + log, function (err) {
+            if (err) {
+                return console.log(err);
+            }
+            console.log('\x1b[33m%s\x1b[0m', "You can also check logs at \"log.txt\"");
+        });
     });
 }
 
@@ -97,6 +122,23 @@ function movieThis(movie) {
                 console.log("plot: " + response.data.Plot);
                 console.log("Actors: " + response.data.Actors);
                 console.log('\x1b[33m%s\x1b[0m', "----------------------------");
+
+                let logHead = "\n\nNEW SEARCH ( Movie: " + movie + " )\n**************************************************\n"
+                let log = ["Title: " + response.data.Title,
+                "Released year: " + response.data.Year,
+                "Imdb Rating: " + response.data.Ratings[0].Value,
+                "Rotten Tomatoes Rating: " + response.data.Ratings[1].Value,
+                "Movie produced in: " + response.data.Country,
+                "Language: " + response.data.Language,
+                "plot: " + response.data.Plot,
+                "Actors: " + response.data.Actors].join("\n\n");
+
+                fs.appendFile("log.txt", logHead + log, function (err) {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    console.log('\x1b[33m%s\x1b[0m', "You can also check logs at log.txt");
+                });
             }
         );
 }
