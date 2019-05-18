@@ -1,3 +1,4 @@
+// Import required packages
 require("dotenv").config();
 var keys = require("./keys.js");
 var Spotify = require("node-spotify-api");
@@ -9,6 +10,7 @@ var spotify = new Spotify(keys.spotify);
 
 var input = process.argv;
 
+// Switch between expected commands
 switch (input[2]) {
     case "concert-this":
         concertThis(input[3]);
@@ -26,20 +28,25 @@ switch (input[2]) {
         console.log("Invalid input");
         break;
 }
+
+// Function to fetch data from bandsintown
 function concertThis(artist) {
     let queryUrl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
 
     axios.get(queryUrl)
         .then(
             function (response) {
-                console.log("----------------------------");
+                console.log('\x1b[33m%s\x1b[0m', 'Band Data');
+                console.log('\x1b[33m%s\x1b[0m', "----------------------------");
                 console.log('Venue: ' + response.data[0].venue.name);
                 console.log('Location: ' + response.data[0].venue.city + ", " + response.data[0].venue.region);
                 console.log("Date: " + moment(response.data[0].datetime).format("MM/DD/YY"));
-                console.log("----------------------------");
+                console.log('\x1b[33m%s\x1b[0m', "----------------------------");
             }
         );
 }
+
+// Function to grab song details from node-spotify-api
 function spotifyThisSong(song) {
     if (song === undefined) {
         song = "The Sign";
@@ -60,14 +67,17 @@ function spotifyThisSong(song) {
             }
             artists += data.tracks.items[0].artists[i].name;
         }
-        console.log("----------------------------");
+        console.log('\x1b[33m%s\x1b[0m', 'Song Data');
+        console.log('\x1b[33m%s\x1b[0m', "----------------------------");
         console.log("Artist(s): " + artists);
         console.log("Song's name: " + data.tracks.items[0].name);
         console.log("Preview Link: " + Preview);
         console.log("Album: " + data.tracks.items[0].album.name)
-        console.log("----------------------------");
+        console.log('\x1b[33m%s\x1b[0m', "----------------------------");
     });
 }
+
+// Function to fetch data on movie from omdbapi
 function movieThis(movie) {
     if (movie === undefined) {
         movie = "Mr. Nobody";
@@ -76,7 +86,8 @@ function movieThis(movie) {
     axios.get(queryUrl)
         .then(
             function (response) {
-                console.log("----------------------------");
+                console.log('\x1b[33m%s\x1b[0m', 'Movie Data');
+                console.log('\x1b[33m%s\x1b[0m', "----------------------------");
                 console.log("Title: " + response.data.Title);
                 console.log("Released year: " + response.data.Year);
                 console.log("Imdb Rating: " + response.data.Ratings[0].Value);
@@ -85,10 +96,12 @@ function movieThis(movie) {
                 console.log("Language: " + response.data.Language);
                 console.log("plot: " + response.data.Plot);
                 console.log("Actors: " + response.data.Actors);
-                console.log("----------------------------");
+                console.log('\x1b[33m%s\x1b[0m', "----------------------------");
             }
         );
 }
+
+// Reads data from text file and do what it says
 function doWhatItSays() {
     fs.readFile('./random.txt', 'utf8', function (error, data) {
         if (error) {
